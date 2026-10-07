@@ -136,6 +136,7 @@ button{font:inherit;color:inherit}
 </svg></button>
 <p class="cap" id="cap" aria-live="polite"></p>
 <div class="ctrl"><button class="mic" id="mic" type="button" aria-label="Falar com o Bup"><svg viewBox="0 0 24 24" fill="none" stroke="#161616" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button><p class="st" id="st" aria-live="polite"></p></div>
+<form id="tf" style="display:flex;gap:8px;justify-content:center;margin:10px auto 0;max-width:340px"><input id="ti" autocomplete="off" placeholder="Ou digite aqui pro Bup" style="flex:1;min-width:0;padding:10px 14px;border:2px solid #161616;border-radius:999px;font:inherit;background:#fff"><button type="submit" style="padding:10px 16px;border:2px solid #161616;border-radius:999px;background:#ffd23f;font:inherit;font-weight:700;cursor:pointer">Enviar</button></form>
 </main>
 
 <script>
@@ -239,11 +240,12 @@ async function ask(msg){const ct=new AbortController(),to=setTimeout(()=>ct.abor
 /* ---------- ouvir ---------- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 let quiet=0,started=false,paused=false,busy=false,listening=false,hearing=false,fails=0,nudges=0,idleT,hist=[],rec=null;
-if(SR){rec=new SR();rec.lang='pt-BR';rec.continuous=false;rec.interimResults=false;rec.maxAlternatives=1;
+if(SR){rec=new SR();rec.lang='pt-BR';rec.continuous=false;rec.interimResults=true;rec.maxAlternatives=1;
  rec.onstart=()=>{listening=true;hearing=false;setSt('listen')};
  rec.onspeechstart=()=>{quiet=0;if(!busy){hearing=true;face('ouvindo')}};
- rec.onresult=e=>{let f='';for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)f+=e.results[i][0].transcript;
-  f=f.trim();if(f.length>1){fails=0;handle(f)}};
+ rec.onresult=e=>{let f='',p='';for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)f+=r[0].transcript;else p+=r[0].transcript}
+  quiet=0;if(p&&!f)setSt('listen','Ouvindo: '+p.trim());
+  f=f.trim();if(f.length>1){fails=0;setSt('think','Você disse: '+f);handle(f)}};
  rec.onerror=e=>{const c=e.error;
   if(c==='not-allowed'||c==='service-not-allowed'){paused=true;setSt('idle','Libere o microfone nas permissões do navegador e toque no botão.')}
   else if(c==='audio-capture'){paused=true;setSt('idle','Não achei nenhum microfone. Confere e toque no botão.')}
@@ -291,6 +293,7 @@ $('#go').addEventListener('click',()=>{
  busy=true;
  say(GREET,'rindo').then(()=>{busy=false;after()});
  setTimeout(()=>intro.remove(),700)});
+$('#tf').addEventListener('submit',e=>{e.preventDefault();const i=$('#ti'),v=i.value.trim();if(!v||!started)return;i.value='';if(busy&&stopSpeak)stopSpeak();setTimeout(()=>handle(v),busy?150:0)});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&started&&!paused&&!busy)listen()});
 face('feliz');
 })();
