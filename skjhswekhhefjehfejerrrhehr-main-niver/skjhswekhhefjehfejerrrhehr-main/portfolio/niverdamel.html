@@ -233,49 +233,68 @@ function local(msg){const t=n(msg),has=r=>r.test(t);
  if(has(/\?/))return{mood:'pensando',reply:'Hmmm, boa pergunta! Deixa eu pensar... acho que a resposta é bolo!'};
  return{mood:'feliz',reply:R(['Hahaha, conta mais!','Uhul! E o que mais você quer fazer na sua festa?','Que legal! Qual foi o melhor presente até agora?'])}}
 
-async function ask(msg){const ct=new AbortController(),to=setTimeout(()=>ct.abort(),12000);
- try{const r=await fetch('/api/bup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'niver',message:msg,history:hist.slice(-6)}),signal:ct.signal});
+async function ask(msg,audio){const ct=new AbortController(),to=setTimeout(()=>ct.abort(),12000);
+ try{const r=await fetch('/api/bup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'niver',message:msg,audio:audio?{mime:'audio/wav',data:audio}:undefined,history:hist.slice(-6)}),signal:ct.signal});
   const d=await r.json().catch(()=>({}));if(!r.ok||!d.reply)throw new Error(d.error||r.status);return d}finally{clearTimeout(to)}}
 
-/* ---------- ouvir ---------- */
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-let quiet=0,started=false,paused=false,busy=false,listening=false,hearing=false,fails=0,nudges=0,idleT,hist=[],rec=null;
-if(SR){rec=new SR();rec.lang='pt-BR';rec.continuous=false;rec.interimResults=true;rec.maxAlternatives=1;
- rec.onstart=()=>{listening=true;hearing=false;setSt('listen')};
- rec.onspeechstart=()=>{quiet=0;if(!busy){hearing=true;face('ouvindo')}};
- rec.onresult=e=>{let f='',p='';for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)f+=r[0].transcript;else p+=r[0].transcript}
-  quiet=0;if(p&&!f)setSt('listen','Ouvindo: '+p.trim());
-  f=f.trim();if(f.length>1){fails=0;setSt('think','Você disse: '+f);handle(f)}};
- rec.onerror=e=>{const c=e.error;
-  if(c==='not-allowed'||c==='service-not-allowed'){paused=true;setSt('idle','Libere o microfone nas permissões do navegador e toque no botão.')}
-  else if(c==='audio-capture'){paused=true;setSt('idle','Não achei nenhum microfone. Confere e toque no botão.')}
-  else if(c==='network'){paused=true;setSt('idle','O navegador não conseguiu usar o reconhecimento de voz (erro de rede). Abra no Chrome ou Safari, fora do Brave e de navegador de app, e toque no microfone.')}
-  else if(c==='language-not-supported'){paused=true;setSt('idle','Este navegador não tem reconhecimento de voz em português. Tente o Chrome.')}
-  else if(c==='no-speech'){if(++quiet>=3){setSt('listen','Não ouvi nada. Confere se o microfone certo está selecionado e fala mais perto.')}}
-  else if(c!=='aborted')fails++;
-  if(c!=='aborted')console.warn('Bup/voz:',c)};
- rec.onend=()=>{listening=false;hearing=false;if(!busy&&party.dataset.mood==='ouvindo')face('feliz');
-  if(started&&!busy&&!paused){if(fails>6){paused=true;setSt('idle','A conexão da voz falhou. Toque no microfone pra tentar de novo.');return}setTimeout(listen,250+fails*700)}}}
-function listen(){if(!SR||!started||paused||busy||listening)return;try{rec.start()}catch(e){if(e&&e.name!=='InvalidStateError'){console.warn('Bup/start:',e);setSt('idle','Toque no botão do microfone e fale.')}}}
-function stopListen(){try{rec&&rec.abort()}catch(e){}}
+/* ---------- ouvir: grava o áudio e manda pro Gemini entender ---------- */
+let started=false,busy=false,recording=false,nudges=0,idleT,hist=[],rec=null;
+const CAN=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&(window.AudioContext||window.webkitAudioContext));
+function wavB64(chunks,rate){
+ let len=0;chunks.forEach(c=>len+=c.length);const all=new Float32Array(len);let o=0;chunks.forEach(c=>{all.set(c,o);o+=c.length});
+ const r=rate/16000,n=Math.floor(all.length/r),pcm=new Int16Array(n);
+ for(let i=0;i<n;i++){const a=Math.floor(i*r),b=Math.max(a+1,Math.min(all.length,Math.floor((i+1)*r)));let sum=0;for(let j=a;j<b;j++)sum+=all[j];const v=Math.max(-1,Math.min(1,sum/(b-a)));pcm[i]=v<0?v*32768:v*32767}
+ const buf=new ArrayBuffer(44+n*2),dv=new DataView(buf),w=(p,t)=>{for(let i=0;i<t.length;i++)dv.setUint8(p+i,t.charCodeAt(i))};
+ w(0,'RIFF');dv.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);dv.setUint32(24,16000,true);dv.setUint32(28,32000,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);w(36,'data');dv.setUint32(40,n*2,true);
+ for(let i=0;i<n;i++)dv.setInt16(44+i*2,pcm[i],true);
+ const u=new Uint8Array(buf);let bin='';for(let i=0;i<u.length;i+=8192)bin+=String.fromCharCode.apply(null,u.subarray(i,i+8192));
+ return btoa(bin)}
 
-function startIdle(){clearTimeout(idleT);idleT=setTimeout(async()=>{if(busy||paused||hearing||nudges>=2)return;busy=true;nudges++;stopListen();await say(R(NUDGE),'feliz');busy=false;after()},35000)}
-function after(){if(paused||!SR){setSt('idle',SR?undefined:'Seu navegador não escuta voz. Abra no Chrome ou no Safari.')}else listen();startIdle()}
+async function startRec(){
+ if(recording||busy||!started)return;
+ let stream;
+ try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}
+ catch(e){console.warn('Bup/mic:',e);setSt('idle','Libere o microfone nas permissões do navegador e toque no botão.');return}
+ const ctx=new(window.AudioContext||window.webkitAudioContext)();try{await ctx.resume()}catch(e){}
+ const src=ctx.createMediaStreamSource(stream),proc=ctx.createScriptProcessor(4096,1,1),mute=ctx.createGain();mute.gain.value=0;
+ const chunks=[];let spoke=false,lastVoice=0,done=false;const t0=Date.now();
+ recording=true;setSt('listen');face('ouvindo');
+ const finish=(send,quiet)=>{if(done)return;done=true;recording=false;rec=null;
+  try{proc.disconnect();src.disconnect();mute.disconnect()}catch(e){}stream.getTracks().forEach(t=>t.stop());const rate=ctx.sampleRate;ctx.close().catch(()=>{});
+  if(!send||!spoke){face('feliz');if(!quiet){setSt('idle','Não ouvi nada. Toque no microfone e fale mais perto.');startIdle()}return}
+  handleAudio(wavB64(chunks,rate))};
+ proc.onaudioprocess=e=>{if(done)return;const d=e.inputBuffer.getChannelData(0);chunks.push(new Float32Array(d));
+  let q=0;for(let i=0;i<d.length;i++)q+=d[i]*d[i];const rms=Math.sqrt(q/d.length),now=Date.now();
+  if(rms>0.01){spoke=true;lastVoice=now}
+  if(spoke&&now-lastVoice>1400)finish(true);else if(!spoke&&now-t0>8000)finish(false);else if(now-t0>12000)finish(true)};
+ src.connect(proc);proc.connect(mute);mute.connect(ctx.destination);
+ rec={stop:()=>finish(true),cancel:()=>finish(false,true)}}
+function stopListen(){if(recording&&rec)rec.cancel()}
 
+function startIdle(){clearTimeout(idleT);idleT=setTimeout(async()=>{if(busy||recording||nudges>=2)return;busy=true;nudges++;await say(R(NUDGE),'feliz');busy=false;after()},35000)}
+function after(note){if(!recording)setSt('idle',note||(CAN?'Toque no microfone e fale.':'Este navegador não grava áudio. Digite abaixo ou use o Chrome/Safari.'));startIdle()}
+
+async function deliver(out,heard,note){
+ if(!MOODS.includes(out.mood))out.mood='feliz';
+ hist.push({role:'user',content:heard||'(áudio)'},{role:'assistant',content:out.reply,mood:out.mood});hist=hist.slice(-8);
+ await say(out.reply,out.mood);busy=false;after(note)}
 async function handle(text){
  if(busy)return;busy=true;clearTimeout(idleT);nudges=0;stopListen();clearTimeout(restT);
  setSt('think');face('pensando');
  let out;try{out=await ask(text)}catch(e){console.warn('Bup/API:',e&&e.message);out=local(text)}
- if(!MOODS.includes(out.mood))out.mood='feliz';
- hist.push({role:'user',content:text},{role:'assistant',content:out.reply,mood:out.mood});hist=hist.slice(-8);
- await say(out.reply,out.mood);busy=false;after()}
+ await deliver(out,text)}
+async function handleAudio(b64){
+ if(busy)return;busy=true;clearTimeout(idleT);nudges=0;clearTimeout(restT);
+ setSt('think');face('pensando');
+ let out,note;try{out=await ask('',b64)}catch(e){console.warn('Bup/API:',e&&e.message);note='Erro ao falar com o Bup: '+((e&&e.message)||e);out={mood:'pensando',reply:'Hmm, não consegui te ouvir direito, Melina. Toca no microfone e fala de novo?'}}
+ await deliver(out,out.heard,note)}
 
 mic.addEventListener('click',()=>{
  if(!started)return;
- if(!SR){setSt('idle','Seu navegador não escuta voz. Abra no Chrome ou no Safari.');return}
- if(busy){if(speaking&&stopSpeak){stopSpeak();busy=false;paused=false;fails=0;listen()}return}
- if(listening){paused=true;stopListen();clearTimeout(idleT);setSt('idle');return}
- paused=false;fails=0;listen()});
+ if(!CAN){setSt('idle','Este navegador não grava áudio. Digite abaixo ou use o Chrome/Safari.');return}
+ if(recording){rec&&rec.stop();return}
+ if(busy){if(speaking&&stopSpeak){stopSpeak();busy=false;startRec()}return}
+ startRec()});
 
 pet.addEventListener('click',()=>{
  if(!started)return;
@@ -291,10 +310,9 @@ $('#go').addEventListener('click',()=>{
  burst(W*.2,H*.78,90,1.1,-1.1,15);burst(W*.8,H*.78,90,1.1,-Math.PI+1.1,15);setTimeout(()=>burst(W/2,H*.4,110,Math.PI*2,-Math.PI/2,13),350);
  try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}
  busy=true;
- say(GREET,'rindo').then(()=>{busy=false;after();setTimeout(()=>{if(!listening&&!paused&&!busy)setSt('idle','Toque no microfone e fale.')},1500)});
+ say(GREET,'rindo').then(()=>{busy=false;after()});
  setTimeout(()=>intro.remove(),700)});
 $('#tf').addEventListener('submit',e=>{e.preventDefault();const i=$('#ti'),v=i.value.trim();if(!v||!started)return;i.value='';if(busy&&stopSpeak)stopSpeak();setTimeout(()=>handle(v),busy?150:0)});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&started&&!paused&&!busy)listen()});
 face('feliz');
 })();
 </script></body></html>
