@@ -238,16 +238,20 @@ async function ask(msg){const ct=new AbortController(),to=setTimeout(()=>ct.abor
 
 /* ---------- ouvir ---------- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-let started=false,paused=false,busy=false,listening=false,hearing=false,fails=0,nudges=0,idleT,hist=[],rec=null;
+let quiet=0,started=false,paused=false,busy=false,listening=false,hearing=false,fails=0,nudges=0,idleT,hist=[],rec=null;
 if(SR){rec=new SR();rec.lang='pt-BR';rec.continuous=false;rec.interimResults=false;rec.maxAlternatives=1;
  rec.onstart=()=>{listening=true;hearing=false;setSt('listen')};
- rec.onspeechstart=()=>{if(!busy){hearing=true;face('ouvindo')}};
+ rec.onspeechstart=()=>{quiet=0;if(!busy){hearing=true;face('ouvindo')}};
  rec.onresult=e=>{let f='';for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)f+=e.results[i][0].transcript;
   f=f.trim();if(f.length>1){fails=0;handle(f)}};
  rec.onerror=e=>{const c=e.error;
   if(c==='not-allowed'||c==='service-not-allowed'){paused=true;setSt('idle','Libere o microfone nas permissões do navegador e toque no botão.')}
   else if(c==='audio-capture'){paused=true;setSt('idle','Não achei nenhum microfone. Confere e toque no botão.')}
-  else if(c!=='no-speech'&&c!=='aborted')fails++};
+  else if(c==='network'){paused=true;setSt('idle','O navegador não conseguiu usar o reconhecimento de voz (erro de rede). Abra no Chrome ou Safari, fora do Brave e de navegador de app, e toque no microfone.')}
+  else if(c==='language-not-supported'){paused=true;setSt('idle','Este navegador não tem reconhecimento de voz em português. Tente o Chrome.')}
+  else if(c==='no-speech'){if(++quiet>=3){setSt('listen','Não ouvi nada. Confere se o microfone certo está selecionado e fala mais perto.')}}
+  else if(c!=='aborted')fails++;
+  if(c!=='aborted')console.warn('Bup/voz:',c)};
  rec.onend=()=>{listening=false;hearing=false;if(!busy&&party.dataset.mood==='ouvindo')face('feliz');
   if(started&&!busy&&!paused){if(fails>6){paused=true;setSt('idle','A conexão da voz falhou. Toque no microfone pra tentar de novo.');return}setTimeout(listen,250+fails*700)}}}
 function listen(){if(!SR||!started||paused||busy||listening)return;try{rec.start()}catch(e){}}
