@@ -256,7 +256,7 @@ if(SR){rec=new SR();rec.lang='pt-BR';rec.continuous=false;rec.interimResults=tru
   if(c!=='aborted')console.warn('Bup/voz:',c)};
  rec.onend=()=>{listening=false;hearing=false;if(!busy&&party.dataset.mood==='ouvindo')face('feliz');
   if(started&&!busy&&!paused){if(fails>6){paused=true;setSt('idle','A conexão da voz falhou. Toque no microfone pra tentar de novo.');return}setTimeout(listen,250+fails*700)}}}
-function listen(){if(!SR||!started||paused||busy||listening)return;try{rec.start()}catch(e){}}
+function listen(){if(!SR||!started||paused||busy||listening)return;try{rec.start()}catch(e){if(e&&e.name!=='InvalidStateError'){console.warn('Bup/start:',e);setSt('idle','Toque no botão do microfone e fale.')}}}
 function stopListen(){try{rec&&rec.abort()}catch(e){}}
 
 function startIdle(){clearTimeout(idleT);idleT=setTimeout(async()=>{if(busy||paused||hearing||nudges>=2)return;busy=true;nudges++;stopListen();await say(R(NUDGE),'feliz');busy=false;after()},35000)}
@@ -273,7 +273,7 @@ async function handle(text){
 mic.addEventListener('click',()=>{
  if(!started)return;
  if(!SR){setSt('idle','Seu navegador não escuta voz. Abra no Chrome ou no Safari.');return}
- if(busy){if(stopSpeak)stopSpeak();return}
+ if(busy){if(speaking&&stopSpeak){stopSpeak();busy=false;paused=false;fails=0;listen()}return}
  if(listening){paused=true;stopListen();clearTimeout(idleT);setSt('idle');return}
  paused=false;fails=0;listen()});
 
@@ -291,7 +291,7 @@ $('#go').addEventListener('click',()=>{
  burst(W*.2,H*.78,90,1.1,-1.1,15);burst(W*.8,H*.78,90,1.1,-Math.PI+1.1,15);setTimeout(()=>burst(W/2,H*.4,110,Math.PI*2,-Math.PI/2,13),350);
  try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}
  busy=true;
- say(GREET,'rindo').then(()=>{busy=false;after()});
+ say(GREET,'rindo').then(()=>{busy=false;after();setTimeout(()=>{if(!listening&&!paused&&!busy)setSt('idle','Toque no microfone e fale.')},1500)});
  setTimeout(()=>intro.remove(),700)});
 $('#tf').addEventListener('submit',e=>{e.preventDefault();const i=$('#ti'),v=i.value.trim();if(!v||!started)return;i.value='';if(busy&&stopSpeak)stopSpeak();setTimeout(()=>handle(v),busy?150:0)});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&started&&!paused&&!busy)listen()});
