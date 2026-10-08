@@ -1,17 +1,16 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow,noarchive"><meta name="theme-color" content="#fff4e0">
-<title>Parabéns, Melina!</title><link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Parabéns!</title><link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Pinyon+Script&family=Silkscreen:wght@400;700&display=swap">
 <style>
 :root{--ink:#161616;--p:#ff7ab8;--o:#ffa04d;--b:#7aa5ff;--y:#ffd23f;--g:#7ddc9a}
-*{box-sizing:border-box}html,body{height:100%}
+*{box-sizing:border-box}html,body{height:100%}[hidden]{display:none!important}
 body{margin:0;font-family:'DM Sans',sans-serif;color:var(--ink);background:#fff;overflow-x:hidden;overflow-y:auto;-webkit-tap-highlight-color:transparent}
+body.pre{cursor:pointer}
 button{font:inherit;color:inherit}
 .grid{position:fixed;inset:0;z-index:-2;background:linear-gradient(#1612 1px,transparent 1px) 0 0/80px 80px,linear-gradient(90deg,#1612 1px,transparent 1px) 0 0/80px 80px,#fff}
 .blob{position:fixed;z-index:-1;border-radius:50%;filter:blur(70px);opacity:.75;animation:drift 14s ease-in-out infinite alternate}
 @keyframes drift{to{transform:translate(60px,-40px) scale(1.15)}}
-
-/* bandeirinhas */
 #bunting{position:fixed;top:0;left:0;width:100%;height:clamp(64px,11vw,104px);z-index:3;pointer-events:none}
 
 /* balões */
@@ -19,30 +18,19 @@ button{font:inherit;color:inherit}
 .bl svg{display:block;width:100%;overflow:visible;transform-origin:50% 100%;animation:sway 3.2s ease-in-out infinite alternate}
 @keyframes rise{from{transform:translate(0,110%)}50%{transform:translate(var(--sw),-60vh)}to{transform:translate(0,-125vh)}}
 @keyframes sway{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+.bl.storm{z-index:4;animation:storm var(--sd) ease-out forwards}
+@keyframes storm{from{transform:translateY(110%)}to{transform:translateY(calc(-1*var(--sh)))}}
 .bl.pop{opacity:0;pointer-events:none}
-#cf{position:fixed;inset:0;width:100%;height:100%;z-index:60;pointer-events:none}
-
-/* tela inicial */
-.intro{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(8px,2vh,18px);padding:90px 20px 24px;text-align:center;transition:opacity .5s,transform .5s}
-.intro.out{opacity:0;transform:scale(1.12);pointer-events:none}
-.cake{width:clamp(170px,min(60vw,34dvh),300px);height:auto;overflow:visible;animation:wob 3.4s ease-in-out infinite;filter:drop-shadow(0 18px 24px #0002)}
-@keyframes wob{50%{transform:translateY(-8px) rotate(1.5deg)}}
-.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick .45s ease-in-out infinite alternate}
-.flame:nth-of-type(2){animation-delay:.15s}.flame:nth-of-type(3){animation-delay:.3s}
-@keyframes flick{from{transform:scale(1,1) rotate(-4deg)}to{transform:scale(.88,1.12) rotate(4deg)}}
-.intro h2{text-shadow:0 0 10px #fff,0 0 10px #fff;margin:0;font-family:'Pinyon Script',cursive;font-weight:400;font-size:clamp(44px,10vw,72px);line-height:1}
-.intro p{margin:0;max-width:34ch;font-size:1.02rem;color:#333;text-shadow:0 0 8px #fff,0 0 8px #fff,0 0 8px #fff}
-.go{margin-top:6px;padding:16px 34px;border-radius:999px;border:2px solid var(--ink);background:var(--ink);color:#fff;font-weight:800;font-size:1.15rem;cursor:pointer;transition:transform .25s;animation:nudge 1.6s ease-in-out infinite}
-.go:hover{transform:scale(1.07)}.go:focus-visible,.mic:focus-visible,.pet:focus-visible{outline:3px solid var(--b);outline-offset:4px}
-@keyframes nudge{50%{transform:scale(1.05)}}
+#cf{position:fixed;inset:0;width:100%;height:100%;z-index:80;pointer-events:none}
+body.po #cf{z-index:5}
 
 /* festa */
-.party{position:relative;z-index:2;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(6px,1.6vh,20px);padding:clamp(66px,10vw,92px) 16px max(16px,env(safe-area-inset-bottom));pointer-events:none;transition:opacity .6s .15s,transform .6s .15s}
-.party.off{opacity:0;transform:scale(.94)}
+.party{position:relative;z-index:2;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(6px,1.6vh,20px);padding:clamp(66px,10vw,92px) 16px max(16px,env(safe-area-inset-bottom));pointer-events:none}
 .party>*{pointer-events:auto}
-.sticker{position:relative;background:#fff;padding:8px 28px 4px;margin-bottom:12px;transform:rotate(-3deg);border-radius:6px;box-shadow:0 0 0 9px #fff,0 16px 40px #0002;text-align:center;line-height:.9;pointer-events:none}
+.sticker{position:relative;background:#fff;padding:8px 28px 4px;margin-bottom:12px;transform:rotate(-3deg);border-radius:6px;box-shadow:0 0 0 9px #fff,0 16px 40px #0002;text-align:center;line-height:.9;pointer-events:none;animation:sin .7s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes sin{from{transform:rotate(-12deg) scale(.4);opacity:0}}
 .sticker .px{display:block;font-family:'Silkscreen',monospace;font-weight:700;font-size:clamp(22px,5.4vw,38px);letter-spacing:-.04em}
-.sticker .sc{display:block;font-family:'Pinyon Script',cursive;font-size:clamp(50px,11vw,84px);margin-top:-.04em}
+.sticker .sc{display:block;font-family:'Pinyon Script',cursive;font-size:clamp(50px,11vw,84px);margin-top:-.04em;max-width:86vw;overflow-wrap:anywhere}
 .pet{all:unset;box-sizing:border-box;position:relative;display:block;width:clamp(150px,calc((100dvh - 465px)/1.28),380px);max-width:64vw;cursor:pointer;filter:drop-shadow(0 22px 30px #0003);--c1:#ffe066;--c2:#ffa62b;touch-action:manipulation}
 .pet svg{width:100%;display:block;overflow:visible;animation:bob 3s ease-in-out infinite}
 .pet::before{content:'';position:absolute;left:10.8%;right:10.8%;top:28.4%;bottom:10.5%;border-radius:50%;border:6px solid var(--b);opacity:0;pointer-events:none}
@@ -58,6 +46,7 @@ button{font:inherit;color:inherit}
 @keyframes sink{50%{transform:translateY(5px)}}
 @keyframes lean{50%{transform:translateY(-5px) rotate(-3deg)}}
 @keyframes chat{from{transform:translateY(0) rotate(-1.5deg)}to{transform:translateY(-9px) rotate(1.5deg)}}
+body.pre .pet svg{animation:beat 1.4s ease-in-out infinite}
 .party[data-mood=rindo] .pet svg{animation:jump .55s ease-in-out infinite}
 .party[data-mood=amando] .pet svg{animation:beat .9s ease-in-out infinite}
 .party[data-mood=surpreso] .pet svg{animation:popin .4s ease-out 1}
@@ -74,8 +63,8 @@ button{font:inherit;color:inherit}
 
 .cap{margin:0;display:flex;align-items:center;justify-content:center;min-height:calc(3*1.35em + 28px);width:min(620px,100%);padding:14px 22px;background:#fff;border:2px solid var(--ink);border-radius:28px;font-weight:700;font-size:clamp(1.05rem,2.4vw,1.3rem);line-height:1.35;text-align:center;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none}
 .cap.show{opacity:1;transform:none}
-@media(min-width:640px){.cap{min-height:calc(3*1.35em + 28px)}.pet{width:clamp(150px,calc((100dvh - 520px)/1.28),380px)}}
 .ctrl{display:flex;flex-direction:column;align-items:center;gap:8px;min-height:121px}
+.microw{position:relative}
 .mic{all:unset;box-sizing:border-box;position:relative;width:76px;height:76px;border-radius:50%;border:2px solid var(--ink);background:#fff;display:grid;place-items:center;cursor:pointer;transition:transform .2s,background .3s}
 .mic:hover{transform:scale(1.07)}
 .mic svg{width:34px;height:34px}
@@ -83,10 +72,74 @@ button{font:inherit;color:inherit}
 @keyframes mp{from{box-shadow:0 0 0 0 #ff7ab899}to{box-shadow:0 0 0 24px #ff7ab800}}
 .party[data-st=think] .mic{background:var(--y)}
 .party[data-st=talk] .mic{background:var(--b)}
+.alt{all:unset;position:absolute;left:calc(100% + 12px);top:50%;transform:translateY(-50%);width:104px;cursor:pointer;font-weight:700;font-size:.78rem;line-height:1.2;text-decoration:underline;color:#1a3fa8;text-shadow:0 0 6px #fff,0 0 6px #fff}
 .st{margin:0;min-height:2.5em;max-width:30ch;text-align:center;font-weight:700;font-size:.92rem;line-height:1.25;color:#333;text-shadow:0 0 6px #fff,0 0 6px #fff}
+@media(min-width:640px){.pet{width:clamp(150px,calc((100dvh - 520px)/1.28),380px)}}
+:focus-visible{outline:3px solid var(--b);outline-offset:3px}
 
-@media(prefers-reduced-motion:reduce){.blob,.bl,.cake,.flame,.go,.pet svg,.pet::before,.mic{animation:none!important}.bl{display:none}}
-</style></head><body>
+/* vídeo + Bup do lado */
+.vid{display:none;width:100%}
+.vwrap{position:relative;aspect-ratio:16/9;width:100%;background:#000;border:3px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:0 0 0 9px #fff,0 0 0 12px var(--p),0 22px 50px #0004;transform:rotate(-1.2deg);animation:vin .8s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes vin{from{transform:rotate(-9deg) scale(.3);opacity:0}}
+.vwrap iframe,.vwrap #yt{position:absolute;inset:0;width:100%;height:100%;border:0}
+.party.show{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;justify-items:center;column-gap:clamp(18px,3vw,40px);padding:clamp(70px,9vw,96px) clamp(16px,3vw,36px) 24px}
+.party.show .sticker,.party.show .cap,.party.show .ctrl{display:none}
+.party.show .vid{display:block;grid-column:1;grid-row:1;max-width:calc((100dvh - 190px)*16/9)}
+.party.show .pet{grid-column:2;grid-row:1;width:clamp(120px,19vw,270px);max-width:none}
+.party.show .pet svg{animation:jump .62s ease-in-out infinite}
+@media(max-width:699px){.party.show{grid-template-columns:1fr;align-content:center;row-gap:22px}.party.show .vid{grid-column:1;grid-row:1}.party.show .pet{grid-column:1;grid-row:2;width:clamp(110px,34vw,170px)}}
+.stop{position:fixed;z-index:40;top:max(10px,env(safe-area-inset-top));right:10px;padding:10px 16px;border-radius:999px;border:2px solid var(--ink);background:#fff;font-weight:800;font-size:.9rem;cursor:pointer;box-shadow:0 6px 18px #0002}
+.toast{position:fixed;z-index:90;left:50%;bottom:max(70px,env(safe-area-inset-bottom));transform:translate(-50%,20px);max-width:min(92vw,420px);padding:12px 18px;border-radius:18px;background:var(--ink);color:#fff;font-weight:700;font-size:.92rem;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* botão discreto */
+.gear{position:fixed;z-index:30;left:10px;bottom:max(10px,env(safe-area-inset-bottom));width:36px;height:36px;padding:0;border-radius:50%;border:1.5px solid #16161655;background:#ffffffaa;display:grid;place-items:center;cursor:pointer;opacity:.38;transition:opacity .2s,transform .2s}
+.gear:hover,.gear:focus-visible{opacity:1;transform:scale(1.1)}
+.gear svg{width:18px;height:18px}
+
+/* painel de controle */
+.panel{position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;background:#fff8ec;transform:translateY(100%);transition:transform .28s cubic-bezier(.2,.9,.3,1)}
+.panel.on{transform:none}
+.phead{display:flex;align-items:center;gap:12px;padding:max(12px,env(safe-area-inset-top)) 16px 12px;background:#fff;border-bottom:2px solid var(--ink)}
+.phead svg{width:52px;height:auto;flex:none;overflow:visible}
+.phead h2{margin:0;font-family:'Silkscreen',monospace;font-size:1.02rem;line-height:1.1}
+.phead p{margin:3px 0 0;font-size:.84rem;color:#555}
+.pclose{margin-left:auto;flex:none;padding:10px 18px;border-radius:999px;border:2px solid var(--ink);background:var(--ink);color:#fff;font-weight:800;cursor:pointer}
+.pbody{flex:1;overflow:auto;-webkit-overflow-scrolling:touch}
+.pin{display:flex;flex-direction:column;gap:14px;width:100%;max-width:620px;margin:0 auto;padding:16px 16px max(32px,env(safe-area-inset-bottom))}
+.card{display:flex;flex-direction:column;gap:10px;padding:14px 16px;background:#fff;border:2px solid var(--ink);border-radius:22px}
+.card h3{margin:0;font-size:1.02rem;font-weight:800}
+.card small{color:#666;font-size:.8rem;line-height:1.3}
+.f{display:flex;flex-direction:column;gap:5px;font-weight:700;font-size:.86rem}
+.card input[type=text],.card input[type=url],.card textarea,.card select{width:100%;padding:11px 13px;font:inherit;font-size:16px;font-weight:500;border:2px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink)}
+.card textarea{resize:vertical;min-height:84px}
+.row{display:flex;gap:8px;align-items:center}.row>input{flex:1;min-width:0}
+.btn{padding:12px 18px;border-radius:999px;border:2px solid var(--ink);background:#fff;font-weight:800;cursor:pointer;transition:transform .15s}
+.btn:active,.tile:active{transform:scale(.96)}
+.btn.dk{background:var(--ink);color:#fff}
+.btn.big{padding:15px 22px;font-size:1.1rem;background:var(--p)}
+.link{all:unset;cursor:pointer;color:#1a3fa8;font-weight:700;font-size:.82rem;text-decoration:underline}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 8px;border:2px solid var(--ink);border-radius:22px;font-weight:800;font-size:.98rem;line-height:1.15;text-align:center;cursor:pointer;transition:transform .15s}
+.tile b{font-size:2rem;line-height:1}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:9px 14px;border-radius:999px;border:2px solid var(--ink);background:#fff;font-weight:700;font-size:.88rem;cursor:pointer}
+.chip.on,.seg input:checked+span{background:var(--ink);color:#fff}
+.seg{display:flex;gap:8px;flex-wrap:wrap}.seg label{position:relative;cursor:pointer}.seg input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.seg span{display:block;padding:10px 14px;border-radius:999px;border:2px solid var(--ink);background:#fff;font-weight:700;font-size:.88rem}
+.seg input:focus-visible+span{outline:3px solid var(--b);outline-offset:2px}
+.sw{position:relative;display:flex;align-items:center;gap:12px;font-weight:700;cursor:pointer}
+.sw input{position:absolute;left:0;top:0;width:52px;height:30px;margin:0;opacity:0;cursor:pointer}
+.sw i{position:relative;flex:none;width:52px;height:30px;border-radius:999px;border:2px solid var(--ink);background:#ddd;transition:background .2s}
+.sw i::after{content:'';position:absolute;left:2px;top:2px;width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid var(--ink);transition:transform .2s}
+.sw input:checked+i{background:var(--g)}.sw input:checked+i::after{transform:translateX(22px)}
+.sw input:focus-visible+i{outline:3px solid var(--b);outline-offset:2px}
+.rng{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.86rem}.rng span:first-child{width:76px;flex:none}.rng input{flex:1;min-width:0;accent-color:var(--ink)}.rng output{width:38px;text-align:right;font-variant-numeric:tabular-nums}
+.thumb{display:flex;align-items:center;gap:10px;font-size:.85rem;font-weight:700}.thumb img{width:96px;border:2px solid var(--ink);border-radius:10px}
+.msg{margin:0;min-height:1.2em;font-size:.84rem;font-weight:700;color:#b3261e}.msg.ok{color:#17803d}
+
+@media(prefers-reduced-motion:reduce){.blob,.bl,.pet svg,.pet::before,.mic,.sticker,.vwrap{animation:none!important}.bl{display:none}}
+</style></head><body class="pre">
 <div class="grid"></div>
 <div class="blob" style="width:420px;height:420px;background:#ff9ad0;left:-100px;top:-80px"></div>
 <div class="blob" style="width:380px;height:380px;background:#8fb4ff;right:-80px;bottom:5%;animation-delay:-5s"></div>
@@ -95,26 +148,9 @@ button{font:inherit;color:inherit}
 <div id="balloons"></div>
 <canvas id="cf" aria-hidden="true"></canvas>
 
-<section class="intro" id="intro">
-<svg class="cake" viewBox="0 0 260 250" aria-hidden="true">
-<ellipse cx="130" cy="228" rx="118" ry="14" fill="#fff" stroke="#161616" stroke-width="4"/>
-<g stroke="#161616" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
-<rect x="38" y="150" width="184" height="68" rx="14" fill="#ff7ab8"/>
-<path d="M38 160v-2a8 8 0 0 1 8-8H214a8 8 0 0 1 8 8v2a15.33 15.33 0 0 1-30.67 0a15.33 15.33 0 0 1-30.66 0a15.33 15.33 0 0 1-30.67 0a15.33 15.33 0 0 1-30.67 0a15.33 15.33 0 0 1-30.66 0a15.33 15.33 0 0 1-30.67 0z" fill="#fff"/>
-<rect x="66" y="98" width="128" height="54" rx="12" fill="#ffd23f"/>
-<path d="M66 106v-2a8 8 0 0 1 8-8H186a8 8 0 0 1 8 8v2a16 16 0 0 1-32 0a16 16 0 0 1-32 0a16 16 0 0 1-32 0a16 16 0 0 1-32 0z" fill="#fff"/>
-<g stroke-width="5"><path d="M62 196l8-4" stroke="#7aa5ff"/><path d="M96 200l-2-9" stroke="#ffd23f"/><path d="M130 196l7-5" stroke="#7ddc9a"/><path d="M166 201l-3-9" stroke="#fff"/><path d="M200 196l8-3" stroke="#ffa04d"/><path d="M82 140l6 3" stroke="#ff7ab8"/><path d="M150 138l-4 7" stroke="#7aa5ff"/></g>
-<rect x="96" y="62" width="10" height="34" rx="3" fill="#7aa5ff"/><rect x="125" y="62" width="10" height="34" rx="3" fill="#ff7ab8"/><rect x="154" y="62" width="10" height="34" rx="3" fill="#7ddc9a"/>
-</g>
-<g stroke="#161616" stroke-width="3"><path class="flame" d="M101 36q-10 13 0 22q10-9 0-22z" fill="#ffa04d"/><path class="flame" d="M130 36q-10 13 0 22q10-9 0-22z" fill="#ffa04d"/><path class="flame" d="M159 36q-10 13 0 22q10-9 0-22z" fill="#ffa04d"/></g>
-</svg>
-<h2>Melina, tem uma surpresa pra você!</h2>
-<p>Aumente o volume e deixe o microfone liberado, porque alguém quer conversar com você.</p>
-<button class="go" id="go" type="button">Abrir a surpresa</button>
-</section>
-
-<main class="party off" id="party" data-mood="feliz" data-st="idle">
-<div class="sticker"><span class="px">PARABÉNS</span><span class="sc">Melina!</span></div>
+<main class="party" id="party" data-mood="feliz" data-st="idle">
+<div class="sticker"><span class="px">PARABÉNS</span><span class="sc" id="nm">Melina!</span></div>
+<div class="vid" id="vid"><div class="vwrap"><div id="ytbox"></div></div></div>
 <button class="pet" id="pet" type="button" aria-label="Fazer cosquinha no Bup">
 <svg viewBox="-14 -52 148 190" aria-hidden="true"><defs><radialGradient id="bg" cx=".35" cy=".3"><stop offset="0" style="stop-color:var(--c1)"/><stop offset="1" style="stop-color:var(--c2)"/></radialGradient>
 <path id="h" d="M10 18C2 12 0 8 0 5a5 5 0 0 1 10-2 5 5 0 0 1 10 2c0 3-2 7-10 13z" fill="#e5195f"/></defs>
@@ -135,18 +171,92 @@ button{font:inherit;color:inherit}
 <circle cx="62" cy="-39" r="8" fill="#ffd23f"/></g>
 </svg></button>
 <p class="cap" id="cap" aria-live="polite"></p>
-<div class="ctrl"><button class="mic" id="mic" type="button" aria-label="Falar com o Bup"><svg viewBox="0 0 24 24" fill="none" stroke="#161616" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button><p class="st" id="st" aria-live="polite"></p></div>
-<form id="tf" style="display:flex;gap:8px;justify-content:center;margin:10px auto 0;max-width:340px"><input id="ti" autocomplete="off" placeholder="Ou digite aqui pro Bup" style="flex:1;min-width:0;padding:10px 14px;border:2px solid #161616;border-radius:999px;font:inherit;background:#fff"><button type="submit" style="padding:10px 16px;border:2px solid #161616;border-radius:999px;background:#ffd23f;font:inherit;font-weight:700;cursor:pointer">Enviar</button></form>
+<div class="ctrl"><div class="microw"><button class="mic" id="mic" type="button" aria-label="Falar com o Bup"><svg viewBox="0 0 24 24" fill="none" stroke="#161616" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button><button class="alt" id="alt" type="button" hidden>Não me ouve? Toque aqui</button></div><p class="st" id="st" aria-live="polite"></p></div>
 </main>
+
+<button class="stop" id="stop" type="button" hidden>Parar ✕</button>
+<div class="toast" id="toast" role="status"></div>
+<button class="gear" id="gear" type="button" aria-label="Controle do Bup da Mel" title="Controle"><svg viewBox="0 0 24 24" fill="none" stroke="#161616" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg></button>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="cakeS" viewBox="0 0 260 250">
+<ellipse cx="130" cy="228" rx="118" ry="14" fill="#fff" stroke="#161616" stroke-width="4"/>
+<g stroke="#161616" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<rect x="38" y="150" width="184" height="68" rx="14" fill="#ff7ab8"/>
+<path d="M38 160v-2a8 8 0 0 1 8-8H214a8 8 0 0 1 8 8v2a15.33 15.33 0 0 1-30.67 0a15.33 15.33 0 0 1-30.66 0a15.33 15.33 0 0 1-30.67 0a15.33 15.33 0 0 1-30.67 0a15.33 15.33 0 0 1-30.66 0a15.33 15.33 0 0 1-30.67 0z" fill="#fff"/>
+<rect x="66" y="98" width="128" height="54" rx="12" fill="#ffd23f"/>
+<path d="M66 106v-2a8 8 0 0 1 8-8H186a8 8 0 0 1 8 8v2a16 16 0 0 1-32 0a16 16 0 0 1-32 0a16 16 0 0 1-32 0a16 16 0 0 1-32 0z" fill="#fff"/>
+<rect x="96" y="62" width="10" height="34" rx="3" fill="#7aa5ff"/><rect x="125" y="62" width="10" height="34" rx="3" fill="#ff7ab8"/><rect x="154" y="62" width="10" height="34" rx="3" fill="#7ddc9a"/></g>
+<g stroke="#161616" stroke-width="3"><path d="M101 36q-10 13 0 22q10-9 0-22z" fill="#ffa04d"/><path d="M130 36q-10 13 0 22q10-9 0-22z" fill="#ffa04d"/><path d="M159 36q-10 13 0 22q10-9 0-22z" fill="#ffa04d"/></g>
+</symbol></defs></svg>
+
+<section class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="ptitle" hidden>
+<div class="phead"><svg viewBox="0 0 260 250" aria-hidden="true"><use href="#cakeS"/></svg><div><h2 id="ptitle">Controle do Bup</h2><p id="psub">Festa da Melina</p></div><button class="pclose" id="pclose" type="button">Fechar</button></div>
+<div class="pbody"><div class="pin">
+
+<div class="card"><h3>🎬 Vídeo ou música do YouTube</h3>
+<label class="f">Cole o link do YouTube<input type="url" id="fYt" placeholder="https://youtu.be/..." inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+<div class="thumb" id="ytThumb" hidden><img id="ytImg" alt="" width="96"><span>Link ok! É esse vídeo?</span></div>
+<p class="msg" id="ytMsg"></p>
+<button class="btn big" id="bYt" type="button">▶ Iniciar</button>
+<small>O vídeo aparece na tela com o Bup dançando do lado. Enquanto toca, o microfone fica desligado.</small></div>
+
+<div class="tiles">
+<button class="tile" id="tSing" type="button" style="background:#ffc2e0"><b>🎂</b>Cantar parabéns</button>
+<button class="tile" id="tStorm" type="button" style="background:#cfe0ff"><b>🎈</b>Estourar vários balões</button>
+<button class="tile" id="tRain" type="button" style="background:#fff0a8"><b>🎉</b>Chuva de confete</button>
+<button class="tile" id="tFan" type="button" style="background:#c9f2d6"><b>🎺</b>Fanfarra</button>
+</div>
+
+<div class="card"><h3>💬 Fazer o Bup falar</h3>
+<div class="row"><input type="text" id="fSay" placeholder="Escreva o que ele vai falar" maxlength="200" autocomplete="off"><button class="btn dk" id="bSay" type="button">Falar</button></div>
+<div class="chips" id="moods"><button class="chip" data-m="rindo" type="button">😂 Rindo</button><button class="chip" data-m="amando" type="button">😍 Amando</button><button class="chip" data-m="surpreso" type="button">😮 Surpreso</button><button class="chip" data-m="pensando" type="button">🤔 Pensando</button><button class="chip" data-m="triste" type="button">🥺 Tristinho</button><button class="chip" data-m="feliz" type="button">🙂 Normal</button></div></div>
+
+<div class="card"><h3>👤 Nome e abertura</h3>
+<label class="f">Quem está fazendo aniversário?<input type="text" id="fName" maxlength="24" autocomplete="off"></label>
+<label class="f">Frase de abertura<textarea id="fGreet" maxlength="260"></textarea></label>
+<small>Escreva <b>{nome}</b> onde o nome deve aparecer. Ex.: “Oi, {nome}! Feliz aniversário!”</small>
+<div class="row"><button class="btn dk" id="bGreet" type="button">Falar a abertura agora</button><button class="link" id="bGreetReset" type="button">Restaurar</button></div></div>
+
+<div class="card"><h3>🔊 Voz do Bup</h3>
+<label class="f">Voz<select id="selVoice"></select></label>
+<div class="rng"><span>Tom</span><input type="range" id="rPitch" min="0.5" max="2" step="0.05"><output id="oPitch"></output></div>
+<div class="rng"><span>Velocidade</span><input type="range" id="rRate" min="0.6" max="1.5" step="0.05"><output id="oRate"></output></div>
+<div class="chips" id="presets"><button class="chip" data-p="1.5,1.1" type="button">Fofinho</button><button class="chip" data-p="1.3,1.05" type="button">Padrão</button><button class="chip" data-p="1,1" type="button">Normal</button><button class="chip" data-p="0.6,0.9" type="button">Grave engraçado</button></div>
+<button class="btn dk" id="bTest" type="button">Testar voz</button>
+<small id="voiceNote">Algumas vozes de celular ignoram o tom. Se nada mudar, troque a voz na lista.</small></div>
+
+<div class="card"><h3>🎤 Microfone</h3>
+<label class="sw"><input type="checkbox" id="swMic"><i></i><span>Bup escutando e respondendo</span></label>
+<div class="f">Como ele escuta
+<div class="seg" id="seg"><label><input type="radio" name="eng" value="auto"><span>Automático</span></label><label><input type="radio" name="eng" value="rec"><span>Gravação (plano B)</span></label></div></div>
+<small>Se o Bup não reagir quando ela fala, escolha <b>Gravação</b>: ele grava a voz e usa a IA pra entender, sem depender do navegador.</small></div>
+
+</div></div>
+</section>
 
 <script>
 (()=>{
-const $=s=>document.querySelector(s),R=a=>a[Math.random()*a.length|0];
+const $=s=>document.querySelector(s),R=a=>a[Math.random()*a.length|0],sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const n=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-const party=$('#party'),pet=$('#pet'),cap=$('#cap'),st=$('#st'),mic=$('#mic'),intro=$('#intro');
+const party=$('#party'),pet=$('#pet'),cap=$('#cap'),st=$('#st'),mic=$('#mic'),altBtn=$('#alt'),panel=$('#panel'),gear=$('#gear'),stopBtn=$('#stop'),vid=$('#vid');
 const MOODS=['feliz','rindo','amando','surpreso','pensando','triste'];
 const COL=['#ff7ab8','#ffa04d','#7aa5ff','#ffd23f','#7ddc9a','#b79bff','#fff'];
+
+/* ---------- diagnóstico: abra /niverdamel?debug=1 ---------- */
+const DEBUG=/[?&]debug/.test(location.search);let dbgEl;
+function dbg(m){console.log('[bup]',m);if(!DEBUG)return;if(!dbgEl){dbgEl=document.createElement('pre');dbgEl.style.cssText='position:fixed;left:52px;right:6px;bottom:6px;z-index:99;margin:0;max-height:24vh;overflow:auto;background:#000d;color:#9f9;font:11px/1.3 monospace;padding:6px;border-radius:8px;white-space:pre-wrap;pointer-events:none';document.body.append(dbgEl)}dbgEl.textContent+=m+'\n';dbgEl.scrollTop=1e9}
+
+/* ---------- configurações (ficam salvas neste aparelho) ---------- */
+const DEF_GREET='Oi, {nome}! Feliz aniversário! Eu sou o Bup e vim fazer a maior festa pra você! Pode falar comigo, tenho paciência infinita!';
+const cfg={name:'Melina',greet:DEF_GREET,voiceURI:'',pitch:1.3,rate:1.05,micOn:true,engine:'auto',yt:''};
+try{Object.assign(cfg,JSON.parse(localStorage.getItem('bupmel')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('bupmel',JSON.stringify(cfg))}catch(e){}};
+const cleanName=v=>String(v||'').replace(/[^\p{L}\p{N} '’-]/gu,'').trim().slice(0,24);
+const NM=()=>cleanName(cfg.name)||'Melina';
+const fillName=t=>String(t).replace(/\{nome\}/gi,NM());
+function applyName(){$('#nm').textContent=NM()+'!';$('#psub').textContent='Festa de '+NM();document.title='Parabéns, '+NM()+'!'}
 
 /* ---------- bandeirinhas ---------- */
 (()=>{const f=x=>10+26*Math.sin(Math.PI*((x/700)%1));let d='M0 '+f(0).toFixed(1),t='';
@@ -154,11 +264,12 @@ for(let x=20;x<=1400;x+=20)d+=' L'+x+' '+f(x).toFixed(1);
 for(let i=0,x=50;x<1400;i++,x+=100){t+=`<path d="M${x-26} ${f(x-26).toFixed(1)}L${x} ${(f(x)+58).toFixed(1)}L${x+26} ${f(x+26).toFixed(1)}z" fill="${COL[i%6]}" stroke="#161616" stroke-width="3" stroke-linejoin="round"/>`}
 $('#bunting').innerHTML=`<path d="${d}" fill="none" stroke="#161616" stroke-width="3"/>`+t})();
 
-/* ---------- som (sintetizado, sem arquivos) ---------- */
+/* ---------- som sintetizado ---------- */
 let AC;const ac=()=>{try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}return AC};
 function tone(f,t0,dur,type,vol){const a=ac();if(!a)return;const o=a.createOscillator(),g=a.createGain(),t=a.currentTime+t0;o.type=type||'triangle';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol||.16,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+dur);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+dur+.05)}
 const fanfare=()=>[523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.09,.4));
 function popSound(){const a=ac();if(!a)return;const len=a.sampleRate*.12,b=a.createBuffer(1,len,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);const s=a.createBufferSource(),g=a.createGain();g.gain.value=.35;s.buffer=b;s.connect(g);g.connect(a.destination);s.start()}
+function noteBox(a,dest,f,t,d){const L=Math.max(.4,d);[[1,.22],[2,.08],[3,.03]].forEach(([m,v])=>{const o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.value=f*m;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.01);g.gain.exponentialRampToValueAtTime(.0008,t+L);o.connect(g);g.connect(dest);o.start(t);o.stop(t+L+.05)})}
 
 /* ---------- confete ---------- */
 const cv=$('#cf'),cx=cv.getContext('2d');let W,H,ps=[],raf=0;
@@ -179,157 +290,307 @@ const centerOf=el=>{const r=el.getBoundingClientRect();return[r.left+r.width/2,r
 if(!reduce)setInterval(()=>{if(document.hidden||ps.length>110)return;
  ps.push({x:Math.random()*W,y:-12,vx:(Math.random()-.5)*1.4,vy:1+Math.random()*1.5,g:.012,w:6+Math.random()*5,h:8+Math.random()*7,r:Math.random()*6,vr:(Math.random()-.5)*.2,c:R(COL),round:Math.random()<.25,l:0,m:400});
  if(!raf)raf=requestAnimationFrame(loop)},330);
+function rain(){let k=0;const iv=setInterval(()=>{burst(Math.random()*W,-10,26,Math.PI*.7,Math.PI/2,5);if(++k>14)clearInterval(iv)},180);burst(W*.12,H*.8,80,1,-1.1,15);burst(W*.88,H*.8,80,1,-Math.PI+1.1,15)}
 
 /* ---------- balões ---------- */
 const BC=['#ff7ab8','#ffa04d','#7aa5ff','#ffd23f','#7ddc9a','#b79bff'],BL=$('#balloons');
-for(let i=0;i<9;i++){const c=BC[i%BC.length],b=document.createElement('button');b.type='button';b.className='bl';b.setAttribute('aria-label','Estourar balão');
+function mkBalloon(c){const b=document.createElement('button');b.type='button';b.className='bl';b.setAttribute('aria-label','Estourar balão');
+ b.innerHTML=`<svg viewBox="0 0 60 92" aria-hidden="true"><path d="M30 2C13 2 3 16 3 31c0 17 14 31 27 36 13-5 27-19 27-36C57 16 47 2 30 2z" fill="${c}" stroke="#161616" stroke-width="3"/><path d="M30 67l-5 8h10z" fill="${c}" stroke="#161616" stroke-width="3" stroke-linejoin="round"/><path d="M30 75q-8 6 0 11t0 4" fill="none" stroke="#161616" stroke-width="2"/><ellipse cx="19" cy="22" rx="5" ry="9" fill="#fff" opacity=".55" transform="rotate(25 19 22)"/></svg>`;return b}
+function popBalloon(b){if(b.classList.contains('pop'))return;const[x,y]=centerOf(b);b.classList.add('pop');popSound();burst(x,y-10,34,Math.PI*2,-Math.PI/2,8)}
+for(let i=0;i<9;i++){const b=mkBalloon(BC[i%BC.length]);
  b.style.cssText=`--x:${4+Math.random()*88}%;--s:${(.75+Math.random()*.6).toFixed(2)};--d:${(15+Math.random()*10).toFixed(1)}s;--dl:${(-Math.random()*22).toFixed(1)}s;--sw:${(Math.random()*50-25)|0}px`;
- b.innerHTML=`<svg viewBox="0 0 60 92" aria-hidden="true"><path d="M30 2C13 2 3 16 3 31c0 17 14 31 27 36 13-5 27-19 27-36C57 16 47 2 30 2z" fill="${c}" stroke="#161616" stroke-width="3"/><path d="M30 67l-5 8h10z" fill="${c}" stroke="#161616" stroke-width="3" stroke-linejoin="round"/><path d="M30 75q-8 6 0 11t0 4" fill="none" stroke="#161616" stroke-width="2"/><ellipse cx="19" cy="22" rx="5" ry="9" fill="#fff" opacity=".55" transform="rotate(25 19 22)"/></svg>`;
- b.addEventListener('click',()=>{const[x,y]=centerOf(b);b.classList.add('pop');popSound();burst(x,y-10,34,Math.PI*2,-Math.PI/2,8)});
- b.addEventListener('animationiteration',e=>{if(e.target===b)b.classList.remove('pop')});
- BL.append(b)}
+ b.addEventListener('click',()=>popBalloon(b));
+ b.addEventListener('animationiteration',e=>{if(e.target===b)b.classList.remove('pop')});BL.append(b)}
+function storm(){
+ if(reduce){rain();return}
+ [...BL.querySelectorAll('.bl:not(.pop):not(.storm)')].forEach((b,i)=>setTimeout(()=>popBalloon(b),i*220+Math.random()*150));
+ for(let i=0;i<18;i++)setTimeout(()=>{const b=mkBalloon(R(BC)),d=1.7+Math.random()*1.5;b.classList.add('storm');
+  b.style.cssText=`--x:${3+Math.random()*88}%;--s:${(.8+Math.random()*.6).toFixed(2)};--sd:${d.toFixed(2)}s;--sh:${(40+Math.random()*45)|0}vh`;BL.append(b);
+  const kill=()=>{popBalloon(b);setTimeout(()=>b.remove(),500)};b.addEventListener('click',kill);setTimeout(kill,d*1000*(.5+Math.random()*.45))},i*170)}
 
-/* ---------- cara do Bup ---------- */
-const FACES=[...document.querySelectorAll('.x')];let restT;
+/* ---------- cara do Bup / status / legenda / aviso ---------- */
+const FACES=[...document.querySelectorAll('.x')];let restT,toastT;
 function face(m){party.dataset.mood=m;FACES.forEach(g=>g.classList.toggle('on',g.classList.contains(m)))}
 function setSt(k,txt){party.dataset.st=k;st.textContent=txt!=null?txt:({listen:'Pode falar, tô ouvindo!',think:'Pensando...',talk:'Falando... toque no microfone pra interromper',idle:'Toque no microfone pra falar'})[k]||''}
 function showCap(t){cap.textContent=t;cap.classList.add('show')}
+function toast(t,ms){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),ms||3800)}
 
-/* ---------- voz do Bup ---------- */
-const synth=window.speechSynthesis;let maleVoice=false,voice=null,speaking=false,stopSpeak=null;
-function pickVoice(){const vs=synth?synth.getVoices():[],pt=vs.filter(v=>/^pt[-_]BR/i.test(v.lang)||/portugu[eê]s.*(brasil|brazil)/i.test(v.name));
- const male=/ant[oô]nio|felipe|daniel|ricardo|thiago|donato|jorge|\bmale\b|masculin/i,fem=/female|feminin|francisca|luciana|maria|vit[oó]ria|fernanda|joana|thalita/i;
- voice=pt.find(v=>male.test(v.name)&&!fem.test(v.name))||null;maleVoice=!!voice;
- if(!voice)voice=pt.find(v=>/google/i.test(v.name))||pt[0]||vs.find(v=>/^pt/i.test(v.lang))||null}
-if(synth){pickVoice();synth.addEventListener&&synth.addEventListener('voiceschanged',pickVoice)}
+/* ---------- voz do Bup (falar) ---------- */
+const synth=window.speechSynthesis;let voice=null,speaking=false,stopSpeak=null;
+function pickVoice(){const vs=synth?synth.getVoices():[];let v=cfg.voiceURI?vs.find(x=>x.voiceURI===cfg.voiceURI):null;
+ if(!v){const pt=vs.filter(x=>/^pt[-_]BR/i.test(x.lang)||/portugu[eê]s.*(brasil|brazil)/i.test(x.name));
+  v=pt.find(x=>/google/i.test(x.name))||pt.find(x=>/luciana|francisca|vit[oó]ria|maria|fernanda|joana/i.test(x.name))||pt[0]||vs.find(x=>/^pt/i.test(x.lang))||null}
+ voice=v}
+if(synth){pickVoice();synth.addEventListener&&synth.addEventListener('voiceschanged',()=>{pickVoice();fillVoices()})}
 function setSpeaking(v){speaking=v;party.classList.toggle('speaking',v)}
-function speak(text){return new Promise(res=>{
+function speak(text,tried){return new Promise(res=>{
  if(!synth){setSpeaking(true);setTimeout(()=>{setSpeaking(false);res()},Math.min(7000,1500+text.length*70));return}
- synth.cancel();
- const u=new SpeechSynthesisUtterance(text);u.lang='pt-BR';if(voice)u.voice=voice;u.pitch=maleVoice?1.15:0.45;u.rate=maleVoice?1.12:1.08;
- let done=false,wd;
- const fin=()=>{if(done)return;done=true;clearTimeout(wd);stopSpeak=null;setSpeaking(false);res()};
- u.onstart=()=>setSpeaking(true);u.onend=fin;u.onerror=fin;
+ try{synth.cancel();synth.resume()}catch(e){}
+ const u=new SpeechSynthesisUtterance(text);u.lang='pt-BR';if(voice&&!tried)u.voice=voice;u.pitch=+cfg.pitch||1.3;u.rate=+cfg.rate||1.05;
+ let done=false,began=false,wd,sw;
+ const fin=()=>{if(done)return;done=true;clearTimeout(wd);clearTimeout(sw);stopSpeak=null;setSpeaking(false);res()};
+ const retry=()=>{done=true;clearTimeout(wd);clearTimeout(sw);try{synth.cancel()}catch(e){}speak(text,true).then(res)};
+ u.onstart=()=>{began=true;setSpeaking(true)};u.onend=fin;
+ u.onerror=e=>{dbg('erro na voz do Bup: '+(e&&e.error));if(!tried&&e&&e.error!=='canceled'&&e.error!=='interrupted')retry();else fin()};
+ sw=setTimeout(()=>{if(began||done)return;dbg('voz do Bup não começou em 2,5s'+(tried?'':', tentando com a voz padrão'));tried?fin():retry()},2500);
  wd=setTimeout(fin,Math.max(5000,text.length*120+3000));
  stopSpeak=()=>{try{synth.cancel()}catch(e){}fin()};
  setSpeaking(true);synth.speak(u)})}
 async function say(text,mood){mood=MOODS.includes(mood)?mood:'feliz';clearTimeout(restT);face(mood);showCap(text);setSt('talk');
  if(mood==='rindo'||mood==='amando'){const[x,y]=centerOf(pet);burst(x,y-30,26,Math.PI*1.3,-Math.PI/2,8)}
- await speak(text);restT=setTimeout(()=>{if(!busy)face('feliz')},1400)}
+ await speak(text);restT=setTimeout(()=>{if(!busy&&!showing)face('feliz')},1400)}
 
 /* ---------- respostas locais (se a IA falhar) ---------- */
-const GREET='Feliz aniversário, Melina! Eu sou o Bup e vim fazer a maior festa pra você! Pode falar comigo, tenho paciência infinita!';
 const TICKLE=['Hihi, cosquinha! Para, para, hahaha!','Ai, que cócegas! Eu sou só um bichinho!','Uhul! Pode fazer mais, eu adoro!','Hahaha, assim eu estouro de tanto rir!'];
-const NUDGE=['Tá aí, Melina? Me conta, o que você pediu de desejo?','Eu tô aqui, viu? Quer que eu conte uma piada?','Psiu! Já comeu bolo hoje?'];
-function local(msg){const t=n(msg),has=r=>r.test(t);
- if(has(/me matar|suicid|quero morrer|me cortar/))return{mood:'triste',reply:'Ei, Melina, isso me preocupa. Fala com alguém de confiança agora, tá? No Brasil, o CVV atende no 188, a qualquer hora.'};
- if(has(/\b(porra|caralh\w*|merda|bosta|idiota|burr[oa]|imbecil|fdp|vtnc|babaca|otari[oa]|lixo|odeio|puta|cuzao|vai se f\w*|cala a boca)\b/))return{mood:'rindo',reply:R(['Olha a boca, aniversariante! Hahaha, mas hoje eu deixo passar!','Eita, que língua afiada! Eu tô de boa, hoje o dia é seu.','Hahaha, calma, Melina! Respira e come um pedaço de bolo!','Eu aguento tudo, viu? Hoje é seu dia, pode desabafar.'])};
+const NUDGE=['Tá aí, {nome}? Me conta, o que você pediu de desejo?','Eu tô aqui, viu? Quer que eu conte uma piada?','Psiu! Já comeu bolo hoje?'];
+function local(msg){const t=n(msg),has=r=>r.test(t),nm=NM();
+ if(has(/me matar|suicid|quero morrer|me cortar/))return{mood:'triste',reply:`Ei, ${nm}, isso me preocupa. Fala com alguém de confiança agora, tá? No Brasil, o CVV atende no 188, a qualquer hora.`};
+ if(has(/\b(porra|caralh\w*|merda|bosta|idiota|burr[oa]|imbecil|fdp|vtnc|babaca|otari[oa]|lixo|odeio|puta|cuzao|vai se f\w*|cala a boca)\b/))return{mood:'rindo',reply:R(['Olha a boca, aniversariante! Hahaha, mas hoje eu deixo passar!','Eita, que língua afiada! Eu tô de boa, hoje o dia é seu.',`Hahaha, calma, ${nm}! Respira e come um pedaço de bolo!`,'Eu aguento tudo, viu? Hoje é seu dia, pode desabafar.'])};
  if(has(/parabens|cantar|canta/))return{mood:'amando',reply:'Parabéns pra você, nesta data querida, muitas felicidades, muitos anos de vida!'};
  if(has(/te amo|amo voce|fofo|lindo|obrigad|incrivel|o melhor/))return{mood:'amando',reply:R(['Aaah, para, eu fico todo vermelho! Eu gosto muito de você!','Que fofa! Hoje o dia é seu, você merece tudo!'])};
  if(has(/piada/))return{mood:'rindo',reply:R(['Por que o computador foi ao médico? Porque estava com vírus!','O que o zero disse pro oito? Belo cinto!'])};
  if(has(/bolo|doce|brigadeiro/))return{mood:'rindo',reply:'Bolo! Eu queria um pedaço bem grande, mas sou só um bichinho, rs!'};
  if(has(/presente|ganhei|desejo|pedido/))return{mood:'surpreso',reply:'Faz um pedido! Mas não conta pra ninguém, senão não realiza!'};
  if(has(/triste|chorando|sozinh|saudade|cansad/))return{mood:'triste',reply:'Poxa, sinto muito. Eu fico aqui com você, tá? Quer me contar o que houve?'};
- if(has(/quem (e|eh) voce|seu nome|como voce se chama/))return{mood:'feliz',reply:'Eu sou o Bup! Vim aqui só pra fazer a festa da Melina!'};
+ if(has(/quem (e|eh) voce|seu nome|como voce se chama/))return{mood:'feliz',reply:`Eu sou o Bup! Vim aqui só pra fazer a festa de ${nm}!`};
  if(has(/kkk|haha|rsrs|engracad/))return{mood:'rindo',reply:'Hahaha! Agora eu também tô rindo!'};
  if(has(/\?/))return{mood:'pensando',reply:'Hmmm, boa pergunta! Deixa eu pensar... acho que a resposta é bolo!'};
  return{mood:'feliz',reply:R(['Hahaha, conta mais!','Uhul! E o que mais você quer fazer na sua festa?','Que legal! Qual foi o melhor presente até agora?'])}}
 
-async function ask(msg,audio){const ct=new AbortController(),to=setTimeout(()=>ct.abort(),12000);
- try{const r=await fetch('/api/bup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'niver',message:msg,audio:audio?{mime:'audio/wav',data:audio}:undefined,history:hist.slice(-6)}),signal:ct.signal});
+async function post(body,ms){const ct=new AbortController(),to=setTimeout(()=>ct.abort(),ms);
+ try{const r=await fetch('/api/bup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'niver',name:NM(),history:hist.slice(-6),...body}),signal:ct.signal});
   const d=await r.json().catch(()=>({}));if(!r.ok||!d.reply)throw new Error(d.error||r.status);return d}finally{clearTimeout(to)}}
 
-/* ---------- ouvir: grava o áudio e manda pro Gemini entender ---------- */
-let started=false,busy=false,recording=false,nudges=0,idleT,hist=[],rec=null;
-const CAN=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&(window.AudioContext||window.webkitAudioContext));
-function wavB64(chunks,rate){
- let len=0;chunks.forEach(c=>len+=c.length);const all=new Float32Array(len);let o=0;chunks.forEach(c=>{all.set(c,o);o+=c.length});
- const r=rate/16000,n=Math.floor(all.length/r),pcm=new Int16Array(n);
- for(let i=0;i<n;i++){const a=Math.floor(i*r),b=Math.max(a+1,Math.min(all.length,Math.floor((i+1)*r)));let sum=0;for(let j=a;j<b;j++)sum+=all[j];const v=Math.max(-1,Math.min(1,sum/(b-a)));pcm[i]=v<0?v*32768:v*32767}
- const buf=new ArrayBuffer(44+n*2),dv=new DataView(buf),w=(p,t)=>{for(let i=0;i<t.length;i++)dv.setUint8(p+i,t.charCodeAt(i))};
- w(0,'RIFF');dv.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);dv.setUint32(24,16000,true);dv.setUint32(28,32000,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);w(36,'data');dv.setUint32(40,n*2,true);
- for(let i=0;i<n;i++)dv.setInt16(44+i*2,pcm[i],true);
- const u=new Uint8Array(buf);let bin='';for(let i=0;i<u.length;i+=8192)bin+=String.fromCharCode.apply(null,u.subarray(i,i+8192));
- return btoa(bin)}
+/* ---------- estado geral ---------- */
+let started=false,greeted=false,paused=!cfg.micOn,busy=false,showing=null,panelOpen=false,lastErr='',nudges=0,idleT,hist=[];
+let listening=false,hearing=false,gotFinal=false,lastInterim='',heardOnce=false,silentCycles=0,fails=0,hintT,rec=null;
+let altMode=false,stream=null,proc=null,opening=false,vadOn=false;
 
-let ctx=null,stream=null,proc=null,hot=false,sess=null,micP=null;
-function initMic(){return micP||(micP=(async()=>{
- const AC_=window.AudioContext||window.webkitAudioContext;
- try{ctx=new AC_();ctx.resume&&ctx.resume()}catch(e){}
- try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}
- catch(e){console.warn('Bup/mic:',e);try{ctx&&ctx.close()}catch(_){}ctx=null;return false}
- try{await ctx.resume()}catch(e){}
- const src=ctx.createMediaStreamSource(stream),mute=ctx.createGain();mute.gain.value=0;
- proc=ctx.createScriptProcessor(4096,1,1);proc.onaudioprocess=onAudio;src.connect(proc);proc.connect(mute);mute.connect(ctx.destination);
- hot=true;return true})().then(ok=>{if(!ok)micP=null;return ok}))}
-function dropMic(){hot=false;micP=null;try{if(proc){proc.onaudioprocess=null;proc.disconnect()}}catch(e){}try{stream&&stream.getTracks().forEach(t=>t.stop())}catch(e){}try{ctx&&ctx.close()}catch(e){}ctx=stream=proc=null}
-function onAudio(e){const S=sess;if(!S||S.done)return;S.got=true;const d=e.inputBuffer.getChannelData(0);S.chunks.push(new Float32Array(d));
- let q=0;for(let i=0;i<d.length;i++)q+=d[i]*d[i];const rms=Math.sqrt(q/d.length),now=Date.now();
- if(now-S.t0<500){S.floor=(S.floor*S.fn+rms)/(S.fn+1);S.fn++}
- if(rms>Math.max(0.008,S.floor*3)){S.spoke=true;S.lastVoice=now}
- if(now-S.lastUi>150){S.lastUi=now;setSt('listen','Pode falar, tô ouvindo! '+'|'.repeat(Math.min(14,Math.round(rms*140))))}}
+/* ---------- ouvir: reconhecimento do navegador ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const INAPP=/FBAN|FBAV|Instagram|WhatsApp|Messenger|Line\/|MicroMessenger|TikTok|; wv\)/i.test(navigator.userAgent);
+dbg('reconhecimento de voz: '+(SR?'sim':'NÃO')+' | voz do Bup: '+(synth?'sim':'NÃO')+' | app embutido: '+INAPP);dbg(navigator.userAgent);
+const wantAlt=()=>altMode||!SR||cfg.engine==='rec';
+function block(t){paused=true;lastErr=t;setSt('idle',t);syncMicUi()}
+if(SR){rec=new SR();rec.lang='pt-BR';rec.continuous=false;rec.interimResults=true;rec.maxAlternatives=1;
+ rec.onstart=()=>{clearTimeout(hintT);listening=true;hearing=false;gotFinal=false;lastInterim='';heardOnce=false;setSt('listen');dbg('microfone ligado')};
+ rec.onspeechstart=()=>{heardOnce=true;silentCycles=0;altBtn.hidden=true;dbg('ouvi som de fala');if(!busy){hearing=true;face('ouvindo')}};
+ rec.onresult=e=>{let f='',t='';for(let i=e.resultIndex;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)f+=r[0].transcript;else t+=r[0].transcript}
+  heardOnce=true;silentCycles=0;if(t.trim())lastInterim=t.trim();
+  f=f.trim();dbg(f?'entendi: "'+f+'"':'parcial: "'+t.trim()+'"');if(f.length>1&&!gotFinal){gotFinal=true;fails=0;handle(f)}};
+ rec.onerror=e=>{const c=e.error;dbg('erro do microfone: '+c);
+  if(c==='not-allowed'||c==='service-not-allowed'){autoAlt('o navegador bloqueou o reconhecimento ('+c+')')}
+  else if(c==='audio-capture')block('Não achei nenhum microfone. Confere e toque no botão.');
+  else if(c==='language-not-supported')autoAlt('português não suportado');
+  else if(c==='network'){autoAlt('sem serviço de voz do navegador')}
+  else if(c!=='no-speech'&&c!=='aborted')fails++};
+ rec.onend=()=>{dbg('microfone desligou');listening=false;hearing=false;
+  if(!gotFinal&&lastInterim.length>1&&!busy){gotFinal=true;const tt=lastInterim;lastInterim='';dbg('sem resultado final, usando o que ouvi: "'+tt+'"');handle(tt);return}
+  if(!heardOnce&&!busy&&!wantAlt()&&++silentCycles>=2)altBtn.hidden=false;
+  if(!busy&&party.dataset.mood==='ouvindo')face('feliz');
+  if(canListen()&&!wantAlt()){if(fails>6){block('A voz falhou várias vezes. Toque no microfone pra tentar de novo.');return}setTimeout(listen,250+fails*700)}}}
+function autoAlt(why){dbg('mudando pro plano B (gravação): '+why);altMode=true;altBtn.hidden=true;try{rec&&rec.abort()}catch(e){}listening=false;if(canListen())setTimeout(listen,100)}
 
-async function startRec(){
- if(recording||busy||!started)return;
- recording=true;setSt('listen','Abrindo o microfone...');
- const ok=await initMic();
- if(!ok){recording=false;setSt('idle','Libere o microfone nas permissões do navegador e toque no botão.');return}
- if(busy){recording=false;return}
- face('ouvindo');setSt('listen');
- const S=sess={chunks:[],spoke:false,lastVoice:0,got:false,floor:0,fn:0,lastUi:0,t0:Date.now(),done:false};let wd;
- const finish=(send,quiet,msg,again)=>{if(S.done)return;S.done=true;clearInterval(wd);sess=null;recording=false;rec=null;
-  if(!send||!S.spoke){if(again){setTimeout(startRec,100);return}face('feliz');if(!quiet){setSt('idle',msg||'Não ouvi nada. Toque no microfone e fale.');startIdle()}return}
-  handleAudio(wavB64(S.chunks,ctx.sampleRate))};
- wd=setInterval(()=>{const now=Date.now();
-  if(!S.got&&now-S.t0>3500){dropMic();finish(false,false,'O navegador não está passando o áudio do microfone. Toque no microfone pra tentar de novo, ou recarregue a página.')}
-  else if(S.spoke&&now-S.lastVoice>1400)finish(true);
-  else if(!S.spoke&&now-S.t0>9000)finish(false,true,null,true);
-  else if(now-S.t0>12000)finish(true)},200);
- rec={stop:()=>{if(S.spoke)finish(true)},cancel:()=>finish(false,true)}}
-function stopListen(){if(recording&&rec)rec.cancel()}
-
-function startIdle(){clearTimeout(idleT);idleT=setTimeout(async()=>{if(busy||(sess&&sess.spoke)||nudges>=2)return;busy=true;nudges++;stopListen();await say(R(NUDGE),'feliz');busy=false;after()},35000)}
-function after(note){startIdle();if(note||!CAN){setSt('idle',note||'Este navegador não grava áudio. Digite abaixo ou use o Chrome/Safari.');return}setTimeout(startRec,450)}
-
-async function deliver(out,heard,note){
+/* ---------- ouvir: plano B (grava a voz e manda pro Gemini entender) ---------- */
+let chunks=[],pre=[],speech=false,loud=0,quiet=0,total=0,floor=.01,thr=.03,ignoreUntil=0;
+async function openMic(){
+ if(stream&&proc)return true;
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){block('Este navegador não deixa usar o microfone. Abra no Chrome ou no Safari.');return false}
+ try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}})}
+ catch(e){dbg('microfone negado: '+(e&&e.name));stream=null;block('O microfone está bloqueado. Toque no cadeado ao lado do endereço, permita o microfone e depois toque no botão.');return false}
+ const a=ac();if(!a){block('Este navegador não consegue gravar áudio.');return false}
+ const src=a.createMediaStreamSource(stream);proc=a.createScriptProcessor(4096,1,1);const mute=a.createGain();mute.gain.value=0;
+ src.connect(proc);proc.connect(mute);mute.connect(a.destination);proc.onaudioprocess=onAudio;dbg('gravador pronto ('+a.sampleRate+' Hz)');return true}
+function vadStart(){vadOn=true;chunks=[];pre=[];speech=false;loud=0;quiet=0;total=0;ignoreUntil=performance.now()+350;setSt('listen');dbg('gravador: ouvindo')}
+function onAudio(e){
+ if(!vadOn||busy)return;
+ const c=new Float32Array(e.inputBuffer.getChannelData(0)),dur=c.length/AC.sampleRate;let s=0;for(let i=0;i<c.length;i++)s+=c[i]*c[i];const rms=Math.sqrt(s/c.length);
+ mic.style.transform='scale('+(1+Math.min(.3,rms*5)).toFixed(2)+')';
+ if(performance.now()<ignoreUntil)return;
+ if(!speech){
+  pre.push(c);if(pre.length>5)pre.shift();
+  if(rms<thr)floor=floor*.97+rms*.03;thr=Math.max(.02,floor*4);
+  if(rms>thr){if(++loud>=2){speech=true;chunks=pre.slice();pre=[];quiet=0;total=0;dbg('fala detectada');face('ouvindo')}}else loud=0;
+ }else{chunks.push(c);total+=dur;if(rms>thr*.7)quiet=0;else quiet+=dur;if(quiet>1.1||total>12)finishRec()}}
+function wavB64(f32,sr){const out=16000,ratio=sr/out,len=Math.floor(f32.length/ratio),buf=new ArrayBuffer(44+len*2),dv=new DataView(buf);
+ const w=(o,t)=>{for(let i=0;i<t.length;i++)dv.setUint8(o+i,t.charCodeAt(i))};
+ w(0,'RIFF');dv.setUint32(4,36+len*2,true);w(8,'WAVE');w(12,'fmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);dv.setUint32(24,out,true);dv.setUint32(28,out*2,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);w(36,'data');dv.setUint32(40,len*2,true);
+ for(let i=0;i<len;i++){const x=i*ratio,i0=Math.floor(x),i1=Math.min(i0+1,f32.length-1),v=f32[i0]+(f32[i1]-f32[i0])*(x-i0);dv.setInt16(44+i*2,Math.max(-1,Math.min(1,v))*32767,true)}
+ let bin='';const u8=new Uint8Array(buf);for(let i=0;i<u8.length;i+=8192)bin+=String.fromCharCode.apply(null,u8.subarray(i,i+8192));return btoa(bin)}
+function finishRec(){vadOn=false;mic.style.transform='';let L=0;chunks.forEach(c=>L+=c.length);const sr=AC.sampleRate;
+ if(L/sr<.45){dbg('barulho curto, ignorando');chunks=[];setTimeout(()=>{if(canListen())listen()},100);return}
+ const all=new Float32Array(L);let o=0;chunks.forEach(c=>{all.set(c,o);o+=c.length});chunks=[];
+ const b64=wavB64(all,sr);dbg('gravei '+(L/sr).toFixed(1)+'s, enviando '+Math.round(b64.length/1024)+' KB');handleAudio(b64)}
+async function handleAudio(b64){
+ if(busy)return;busy=true;clearTimeout(idleT);nudges=0;clearTimeout(restT);setSt('think','Pensando...');face('pensando');
+ let out;try{out=await post({audio:b64},15000);dbg('IA(áudio) ok: "'+(out.heard||'')+'"')}catch(e){dbg('IA falhou ('+(e&&e.message)+')');out={heard:'',mood:'surpreso',reply:R(['Hmm, não consegui te ouvir direito. Fala de novo?','Opa, o som ficou meio picado. Repete pra mim?'])}}
+ if(showing){return}
+ if(out.heard){setSt('think','Ouvi: “'+out.heard.slice(0,70)+'”');hist.push({role:'user',content:out.heard},{role:'assistant',content:out.reply,mood:out.mood});hist=hist.slice(-8)}
  if(!MOODS.includes(out.mood))out.mood='feliz';
- hist.push({role:'user',content:heard||'(áudio)'},{role:'assistant',content:out.reply,mood:out.mood});hist=hist.slice(-8);
- await say(out.reply,out.mood);busy=false;after(note)}
+ await say(out.reply,out.mood);release()}
+
+/* ---------- controle da escuta ---------- */
+const canListen=()=>started&&!paused&&!busy&&!showing&&!panelOpen;
+function listen(){
+ if(!canListen())return;
+ if(wantAlt()){altMode=true;return altListen()}
+ if(listening)return;
+ try{rec.start();dbg('pedindo pra ouvir...');clearTimeout(hintT);hintT=setTimeout(()=>{if(!listening&&canListen()){setSt('idle','Toque no microfone pra o Bup te ouvir.');dbg('o microfone não ligou sozinho')}},3000)}catch(e){dbg('rec.start falhou: '+e.message)}}
+async function altListen(){if(vadOn||opening)return;opening=true;const ok=await openMic();opening=false;if(ok&&canListen()&&!vadOn)vadStart()}
+function stopListen(){clearTimeout(hintT);try{rec&&rec.abort()}catch(e){}vadOn=false;speech=false;chunks=[];mic.style.transform=''}
+function startIdle(){clearTimeout(idleT);idleT=setTimeout(async()=>{if(busy||paused||hearing||speech||showing||panelOpen||nudges>=2)return;busy=true;nudges++;stopListen();await say(fillName(R(NUDGE)),'feliz');release()},35000)}
+function after(){if(!started)return;if(paused)setSt('idle',lastErr||(cfg.micOn?undefined:'Microfone desligado. Toque no botão pra ligar.'));else listen();startIdle()}
+function release(){if(showing)return;busy=false;after()}
+function syncMicUi(){const sw=$('#swMic');if(sw)sw.checked=!paused}
+function setMic(on){paused=!on;cfg.micOn=on;lastErr='';save();syncMicUi();if(!on){stopListen();clearTimeout(idleT);if(!busy)setSt('idle','Microfone desligado. Toque no botão pra ligar.')}else{fails=0;if(started&&!busy&&!showing&&!panelOpen){stopListen();setTimeout(listen,150)}}}
+
 async function handle(text){
  if(busy)return;busy=true;clearTimeout(idleT);nudges=0;stopListen();clearTimeout(restT);
- setSt('think');face('pensando');
- let out;try{out=await ask(text)}catch(e){console.warn('Bup/API:',e&&e.message);out=local(text)}
- await deliver(out,text)}
-async function handleAudio(b64){
- if(busy)return;busy=true;clearTimeout(idleT);nudges=0;clearTimeout(restT);
- setSt('think');face('pensando');
- let out,note;try{out=await ask('',b64)}catch(e){console.warn('Bup/API:',e&&e.message);note='Erro ao falar com o Bup: '+((e&&e.message)||e);out={mood:'pensando',reply:'Hmm, não consegui te ouvir direito, Melina. Toca no microfone e fala de novo?'}}
- await deliver(out,out.heard,note)}
+ setSt('think','Ouvi: “'+text.slice(0,70)+'”');face('pensando');
+ let out;try{out=await post({message:text.slice(0,200)},12000);dbg('IA respondeu: '+out.mood)}catch(e){dbg('IA falhou ('+(e&&e.message)+'), usando resposta simples');out=local(text)}
+ if(showing)return;
+ if(!MOODS.includes(out.mood))out.mood='feliz';
+ hist.push({role:'user',content:text},{role:'assistant',content:out.reply,mood:out.mood});hist=hist.slice(-8);
+ await say(out.reply,out.mood);release()}
 
 mic.addEventListener('click',()=>{
- if(!started)return;
- if(!CAN){setSt('idle','Este navegador não grava áudio. Digite abaixo ou use o Chrome/Safari.');return}
- if(recording){rec&&rec.stop();return}
- if(busy){if(speaking&&stopSpeak){stopSpeak();busy=false;startRec()}return}
- startRec()});
+ if(!started){return}
+ if(busy){if(stopSpeak)stopSpeak();return}
+ if(listening||vadOn){setMic(false);return}
+ dbg('toque no microfone');setMic(true)});
+altBtn.addEventListener('click',()=>{altBtn.hidden=true;autoAlt('pedido da pessoa');toast('Pronto! Agora o Bup grava sua voz. Pode falar.')});
 
 pet.addEventListener('click',()=>{
  if(!started)return;
  const[x,y]=centerOf(pet);burst(x,y,36,Math.PI*1.6,-Math.PI/2,9);
  pet.classList.add('wig');setTimeout(()=>pet.classList.remove('wig'),520);
  if(busy)return;busy=true;clearTimeout(idleT);stopListen();
- say(R(TICKLE),'rindo').then(()=>{busy=false;after()})});
+ say(R(TICKLE),'rindo').then(release)});
 
-/* ---------- começar a festa ---------- */
-$('#go').addEventListener('click',()=>{
- started=true;ac();fanfare();initMic();
- intro.classList.add('out');party.classList.remove('off');
- burst(W*.2,H*.78,90,1.1,-1.1,15);burst(W*.8,H*.78,90,1.1,-Math.PI+1.1,15);setTimeout(()=>burst(W/2,H*.4,110,Math.PI*2,-Math.PI/2,13),350);
- try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}
- busy=true;
- say(GREET,'rindo').then(()=>{busy=false;after()});
- setTimeout(()=>intro.remove(),700)});
-$('#tf').addEventListener('submit',e=>{e.preventDefault();const i=$('#ti'),v=i.value.trim();if(!v||!started)return;i.value='';if(busy&&stopSpeak)stopSpeak();setTimeout(()=>handle(v),busy?150:0)});
-face('feliz');
+/* ---------- começar a festa (primeiro toque na tela) ---------- */
+function unlock(){ac();if(synth){try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;synth.speak(u)}catch(e){}}}
+function begin(greet){
+ if(!started){started=true;document.body.classList.remove('pre');unlock();dbg('festa iniciada');try{navigator.wakeLock&&navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}}
+ if(greet&&!greeted){greeted=true;fanfare();
+  burst(W*.2,H*.78,90,1.1,-1.1,15);burst(W*.8,H*.78,90,1.1,-Math.PI+1.1,15);setTimeout(()=>burst(W/2,H*.4,110,Math.PI*2,-Math.PI/2,13),350);
+  sayGreeting()}}
+async function sayGreeting(){if(busy)return;busy=true;clearTimeout(idleT);stopListen();await say(fillName(cfg.greet||DEF_GREET),'rindo');release()}
+document.addEventListener('click',e=>{if(started||e.target.closest('.gear,.panel,.toast'))return;begin(true)});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&canListen())listen()});
+
+/* ---------- apresentações: cantar parabéns ---------- */
+let showTok=0,singMaster=null;
+const SONG=[[392,.75],[392,.25],[440,1],[392,1],[523.25,1],[493.88,2],[392,.75],[392,.25],[440,1],[392,1],[587.33,1],[523.25,2],[392,.75],[392,.25],[783.99,1],[659.25,1],[523.25,1],[493.88,1],[440,1],[698.46,.75],[698.46,.25],[659.25,1],[523.25,1],[587.33,1],[523.25,2]];
+function holdOn(k){showing=k;busy=true;clearTimeout(idleT);clearTimeout(restT);stopListen();if(stopSpeak)stopSpeak();stopBtn.hidden=false;setSt('idle','')}
+function holdOff(){showing=null;busy=false;stopBtn.hidden=true;setSpeaking(false);party.classList.remove('show');vid.hidden=true;clearInterval(danceIv);face('feliz');after()}
+function lineSay(text){if(!synth)return;try{synth.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='pt-BR';if(voice)u.voice=voice;u.pitch=Math.min(2,(+cfg.pitch||1.3)+.15);u.rate=.82;synth.speak(u)}catch(e){}}
+async function sing(){
+ begin(false);closePanel(true);holdOn('sing');const tok=++showTok;
+ const a=ac(),beat=.62,master=a.createGain();master.connect(a.destination);singMaster=master;
+ const t0=a.currentTime+.45;let t=0;SONG.forEach(([f,b])=>{noteBox(a,master,f,t0+t*beat,b*beat*.95);t+=b});
+ const lines=['Parabéns pra você','Nesta data querida','Muitas felicidades','Muitos anos de vida'],start=performance.now()+450;
+ face('rindo');setSpeaking(true);showCap('🎶');
+ const at=async ms=>{const w=start+ms-performance.now();if(w>0)await sleep(w);return tok===showTok};
+ for(let i=0;i<4;i++){if(!await at(i*6*beat*1000))return;showCap(lines[i]);lineSay(lines[i]);if(i===2){const[x,y]=centerOf(pet);burst(x,y,50,Math.PI*2,-Math.PI/2,10)}}
+ if(!await at(24*beat*1000+250))return;
+ setSpeaking(false);face('amando');showCap('É pique, é pique, é pique!');
+ const nm=NM();fanfare();rain();
+ await speak(`É pique, é pique, é pique, é pique! É hora, é hora, é hora, rá tim bum! ${nm}, ${nm}, ${nm}!`);
+ if(tok!==showTok)return;
+ showing=null;busy=true;await say(`Parabéns, ${nm}! Que seu dia seja incrível!`,'amando');
+ if(tok!==showTok)return;holdOff()}
+function stopShow(){const k=showing;showTok++;
+ try{if(singMaster&&AC){singMaster.gain.cancelScheduledValues(AC.currentTime);singMaster.gain.setValueAtTime(0,AC.currentTime)}}catch(e){}
+ if(stopSpeak)stopSpeak();else{try{synth&&synth.cancel()}catch(e){}}
+ if(k==='video')teardownVideo();holdOff()}
+stopBtn.addEventListener('click',stopShow);
+
+/* ---------- apresentações: vídeo / música do YouTube ---------- */
+let ytPlayer=null,ytReady=null,danceIv=0;
+function ytParse(raw){raw=String(raw||'').trim();if(!raw)return null;if(/^[\w-]{11}$/.test(raw))return{id:raw,list:'',start:0};
+ let u;try{u=new URL(/^https?:\/\//i.test(raw)?raw:'https://'+raw.replace(/^\/\//,''))}catch(e){return null}
+ const h=u.hostname.replace(/^(www|m|music)\./,'');let id='',list=u.searchParams.get('list')||'';
+ if(h==='youtu.be')id=u.pathname.slice(1).split('/')[0];
+ else if(/^youtube(-nocookie)?\.com$/.test(h)){if(u.pathname==='/watch')id=u.searchParams.get('v')||'';else{const m=u.pathname.match(/^\/(?:shorts|embed|live|v)\/([\w-]{11})/);if(m)id=m[1]}}
+ else return null;
+ if(id&&!/^[\w-]{11}$/.test(id))id='';if(list&&!/^[\w-]{10,60}$/.test(list))list='';if(!id&&!list)return null;
+ let start=0;const t=u.searchParams.get('t')||u.searchParams.get('start')||'';
+ if(t){const m=t.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$/);if(m)start=(+m[1]||0)*3600+(+m[2]||0)*60+(+m[3]||0)}
+ return{id,list,start}}
+window.__ytParse=ytParse;
+function loadYT(){return ytReady||(ytReady=new Promise((ok,no)=>{if(window.YT&&YT.Player)return ok();const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';s.onerror=()=>no(new Error('yt'));window.onYouTubeIframeAPIReady=ok;document.head.append(s);setTimeout(()=>no(new Error('timeout')),8000)}).catch(e=>{ytReady=null;throw e}))}
+async function mountPlayer(y){
+ const box=$('#ytbox');box.innerHTML='<div id="yt"></div>';
+ const plain=()=>{const q=new URLSearchParams({autoplay:'1',playsinline:'1',rel:'0',modestbranding:'1'});if(y.start)q.set('start',y.start);if(y.list)q.set('list',y.list);
+  const f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+(y.id||'videoseries')+'?'+q;f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;f.title='Vídeo';box.innerHTML='';box.append(f)};
+ try{await loadYT()}catch(e){dbg('API do YouTube indisponível, usando player simples');return plain()}
+ try{ytPlayer=new YT.Player('yt',{videoId:y.id||undefined,host:'https://www.youtube-nocookie.com',
+  playerVars:Object.assign({autoplay:1,playsinline:1,rel:0,modestbranding:1,start:y.start||0},y.list?(y.id?{list:y.list}:{listType:'playlist',list:y.list}):{}),
+  events:{onReady:ev=>{try{ev.target.playVideo()}catch(e){}},
+   onStateChange:ev=>{if(ev.data===0&&!y.list)endVideo()},
+   onError:ev=>{dbg('erro do YouTube '+ev.data);toast('Esse vídeo não pode tocar aqui. Tenta outro link!');stopShow()}}})}catch(e){dbg('falha no player: '+e.message);plain()}}
+function teardownVideo(){try{ytPlayer&&ytPlayer.destroy&&ytPlayer.destroy()}catch(e){}ytPlayer=null;$('#ytbox').innerHTML=''}
+async function playVideo(raw){
+ const y=ytParse(raw);
+ if(!y){const m=$('#ytMsg');m.className='msg';m.textContent='Esse link não parece ser do YouTube. Cole o endereço do vídeo (youtube.com ou youtu.be).';return}
+ cfg.yt=String(raw).trim();save();
+ begin(false);if(showing)stopShow();
+ holdOn('video');closePanel(true);const tok=++showTok;
+ party.classList.add('show');vid.hidden=false;face('rindo');
+ setTimeout(()=>{const[x,Y]=centerOf(pet);burst(x,Y,70,Math.PI*2,-Math.PI/2,12);burst(W*.25,H*.5,60,Math.PI*2,-Math.PI/2,11)},350);fanfare();
+ clearInterval(danceIv);danceIv=setInterval(()=>{face(R(['rindo','amando','feliz','rindo']));if(Math.random()<.5){const[x,Y]=centerOf(pet);burst(x,Y-20,22,Math.PI*1.4,-Math.PI/2,8)}},2600);
+ await mountPlayer(y);dbg('vídeo montado')}
+async function endVideo(){if(showing!=='video')return;const tok=++showTok;teardownVideo();party.classList.remove('show');vid.hidden=true;clearInterval(danceIv);rain();
+ showing=null;busy=true;await say(R(['Arrasou! Que música boa! Quer colocar outra?','Que show! Eu amei essa!']),'amando');if(tok!==showTok)return;holdOff()}
+
+/* ---------- painel de controle ---------- */
+function fillVoices(){const sel=$('#selVoice');if(!sel)return;const vs=(synth?synth.getVoices():[]).filter(v=>/^pt/i.test(v.lang));
+ sel.innerHTML='<option value="">Automática (recomendada)</option>'+vs.map(v=>`<option value="${esc(v.voiceURI)}">${esc(v.name)} (${esc(v.lang)})</option>`).join('');
+ sel.value=vs.some(v=>v.voiceURI===cfg.voiceURI)?cfg.voiceURI:'';
+ $('#voiceNote').textContent=vs.length?'Algumas vozes de celular ignoram o tom. Se nada mudar, troque a voz na lista.':'Este aparelho não listou vozes em português. O Bup usa a voz padrão.'}
+function syncPanel(){$('#fName').value=cfg.name;$('#fGreet').value=cfg.greet;$('#fYt').value=cfg.yt||'';ytPreview();
+ $('#rPitch').value=cfg.pitch;$('#rRate').value=cfg.rate;$('#oPitch').textContent=(+cfg.pitch).toFixed(2);$('#oRate').textContent=(+cfg.rate).toFixed(2);
+ $('#swMic').checked=!paused;document.querySelectorAll('#seg input').forEach(r=>r.checked=r.value===cfg.engine);fillVoices();applyName()}
+function ytPreview(){const v=$('#fYt').value.trim(),m=$('#ytMsg'),th=$('#ytThumb');m.className='msg';
+ if(!v){m.textContent='';th.hidden=true;return}
+ const y=ytParse(v);if(!y){m.textContent='Esse link não parece ser do YouTube.';th.hidden=true;return}
+ m.textContent='';if(y.id){$('#ytImg').src='https://i.ytimg.com/vi/'+y.id+'/mqdefault.jpg';th.hidden=false}else{th.hidden=true;m.className='msg ok';m.textContent='Lista de reprodução reconhecida.'}}
+function openPanel(){if(panelOpen)return;panelOpen=true;stopListen();clearTimeout(idleT);syncPanel();panel.hidden=false;requestAnimationFrame(()=>requestAnimationFrame(()=>panel.classList.add('on')));gear.hidden=true;document.body.style.overflow='hidden';document.body.classList.add('po')}
+function closePanel(noResume){if(!panelOpen)return;panelOpen=false;panel.classList.remove('on');setTimeout(()=>{if(!panelOpen)panel.hidden=true},300);gear.hidden=false;document.body.style.overflow='';document.body.classList.remove('po');save();if(!noResume&&started&&!busy&&!showing)after()}
+gear.addEventListener('click',openPanel);$('#pclose').addEventListener('click',()=>closePanel());
+addEventListener('keydown',e=>{if(e.key==='Escape'&&panelOpen)closePanel()});
+
+$('#fName').addEventListener('input',e=>{cfg.name=e.target.value;save();applyName()});
+$('#fName').addEventListener('blur',e=>{e.target.value=NM();cfg.name=NM();save();applyName()});
+$('#fGreet').addEventListener('input',e=>{cfg.greet=e.target.value;save()});
+$('#bGreetReset').addEventListener('click',()=>{cfg.greet=DEF_GREET;$('#fGreet').value=DEF_GREET;save()});
+$('#bGreet').addEventListener('click',()=>{begin(false);closePanel(true);greeted=true;sayGreeting()});
+$('#fYt').addEventListener('input',ytPreview);
+$('#fYt').addEventListener('keydown',e=>{if(e.key==='Enter')playVideo($('#fYt').value)});
+$('#bYt').addEventListener('click',()=>playVideo($('#fYt').value));
+$('#tSing').addEventListener('click',()=>{if(showing)stopShow();sing()});
+$('#tStorm').addEventListener('click',()=>{begin(false);closePanel();storm()});
+$('#tRain').addEventListener('click',()=>{begin(false);closePanel();rain()});
+$('#tFan').addEventListener('click',()=>{begin(false);closePanel();fanfare();rain()});
+async function sayFree(text,mood){begin(false);if(showing)stopShow();closePanel(true);if(busy&&stopSpeak)stopSpeak();busy=true;clearTimeout(idleT);stopListen();await say(text,mood);release()}
+$('#bSay').addEventListener('click',()=>{const t=$('#fSay').value.trim();if(t)sayFree(fillName(t),'rindo')});
+$('#fSay').addEventListener('keydown',e=>{if(e.key==='Enter'){const t=e.target.value.trim();if(t)sayFree(fillName(t),'rindo')}});
+$('#moods').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;begin(false);closePanel();clearTimeout(restT);face(b.dataset.m);const[x,y]=centerOf(pet);burst(x,y,30,Math.PI*1.6,-Math.PI/2,9);restT=setTimeout(()=>{if(!busy&&!showing)face('feliz')},4000)});
+$('#selVoice').addEventListener('change',e=>{cfg.voiceURI=e.target.value;pickVoice();save()});
+const setPR=(p,r)=>{cfg.pitch=+p;cfg.rate=+r;$('#rPitch').value=p;$('#rRate').value=r;$('#oPitch').textContent=(+p).toFixed(2);$('#oRate').textContent=(+r).toFixed(2);save()};
+$('#rPitch').addEventListener('input',e=>setPR(e.target.value,cfg.rate));
+$('#rRate').addEventListener('input',e=>setPR(cfg.pitch,e.target.value));
+$('#presets').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;const[p,r]=b.dataset.p.split(',');setPR(p,r);testVoice()});
+function testVoice(){begin(false);if(showing)return;if(stopSpeak)stopSpeak();speak(`Oi, ${NM()}! Essa é a minha voz. Gostou?`)}
+$('#bTest').addEventListener('click',testVoice);
+$('#swMic').addEventListener('change',e=>{begin(false);setMic(e.target.checked)});
+$('#seg').addEventListener('change',e=>{if(e.target.name!=='eng')return;cfg.engine=e.target.value;save();
+ if(cfg.engine==='rec'){altMode=true;altBtn.hidden=true;toast('Plano B ligado: o Bup grava sua voz e entende pela IA.')}else{altMode=false;toast('Modo automático ligado.')}
+ stopListen()});
+
+/* ---------- início ---------- */
+applyName();face('feliz');showCap('Toque em mim pra começar a festa!');
+if(INAPP)setTimeout(()=>toast('Se o Bup não te ouvir, abra o link no Chrome ou Safari (três pontinhos, “Abrir no navegador”).',6500),1500);
+window.__bup={cfg,get state(){return{started,busy,showing,paused,altMode,listening,vadOn,panelOpen}}};
 })();
 </script></body></html>
